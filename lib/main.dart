@@ -84,6 +84,8 @@ class _BookListScreenState extends State<BookListScreen> {
               );
             }
 
+            books.sort((a, b) => a.year.compareTo(b.year));
+
             return ListView.builder(
               itemCount: books.length,
                 itemBuilder: (context, index) {
@@ -138,8 +140,17 @@ class _BookListScreenState extends State<BookListScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            await fireStore.collection("Books").doc().set({
+                              'name' : _nameET.text,
+                              'writer' : _authorET.text,
+                              'year' : _yearET.text,
+                            });
 
+                            _nameET.clear();
+                            _yearET.clear();
+                            _authorET.clear();
+                            Navigator.pop(context);
                           },
                           child: const Text("Add Book"),
                         ),
