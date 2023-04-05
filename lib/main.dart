@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -35,13 +33,17 @@ class _BookListScreenState extends State<BookListScreen> {
   List<Book> books = [];
   bool gettingBooks = false;
 
-  @override
+  final TextEditingController _nameET = TextEditingController();
+  final TextEditingController _authorET = TextEditingController();
+  final TextEditingController _yearET = TextEditingController();
+
+/*  @override
   void initState() {
     super.initState();
-    getAllBooks();
-  }
+    // getAllBooks();
+  }*/
   
-  Future<void> getAllBooks() async {
+  /*Future<void> getAllBooks() async {
     setState(() {
       gettingBooks = true;
     });
@@ -55,7 +57,7 @@ class _BookListScreenState extends State<BookListScreen> {
     setState(() {
       gettingBooks = false;
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -63,18 +65,92 @@ class _BookListScreenState extends State<BookListScreen> {
       appBar: AppBar(
         title: const Text("Book List"),
       ),
-      body: gettingBooks
-          ? const Center(child: CircularProgressIndicator(),)
-          : ListView.builder(
-          itemCount: books.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(books[index].name),
-              subtitle: Text(books[index].authorName),
-              trailing: Text(books[index].year),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: fireStore.collection("Books").snapshots(),
+        builder: (context, snapshots) {
+          if (snapshots.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator(),);
+          }
+          if (snapshots.hasError) {
+            return Center(
+              child: Text(snapshots.error.toString()),
             );
           }
-      )
+          if (snapshots.hasData) {
+            books.clear();
+            for (var doc in snapshots.data!.docs) {
+              books.add(
+                Book(doc.get('name'), doc.get('writer'), doc.get('year'))
+              );
+            }
+
+            return ListView.builder(
+              itemCount: books.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(books[index].name),
+                    subtitle: Text(books[index].authorName),
+                    trailing: Text(books[index].year),
+                  );
+                }
+            );
+          } else {
+            return const Center(
+              child: Text("No Books Found"),
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return Container(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _nameET,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                          hintText: "Book name"
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      TextFormField(
+                        controller: _authorET,
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                            hintText: "Book author"
+                        ),
+                      ),
+                      const SizedBox(height: 10,),
+                      TextFormField(
+                        controller: _yearET,
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                            hintText: "Book publishing year"
+                        ),
+                      ),
+                      const SizedBox(height: 20,),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+
+                          },
+                          child: const Text("Add Book"),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
+          );
+        },
+      ),
     );
   }
 }
