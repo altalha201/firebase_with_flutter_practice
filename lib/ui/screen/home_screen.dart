@@ -1,7 +1,8 @@
-import 'package:firebase_with_flutter_practice/UI/screen/photo_view.dart';
-import 'package:firebase_with_flutter_practice/UI/utility/application_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../widgets/app_bar.dart';
+import 'photo_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,30 +10,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ApplicationColor.colorBlue,
-        centerTitle: true,
-        title: const Text("Photos"),
-        leading: Padding(
-          padding: const EdgeInsets.all(10),
-          child: InkWell(
-            onTap: () {
-              
-            },
-            child: CircleAvatar(
-              backgroundColor: ApplicationColor.colorBlack,
-              child: const Icon(Icons.person_outline, size: 20,),
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-
-            },
-            icon: const Icon(Icons.add_circle_outline)
-          )
-        ],
+      appBar: buildAppBar(
+        title: "Photos",
+        fromHome: true,
+        profileTap: () {
+          Get.toNamed("/profile");
+        }
       ),
       body: GridView.builder(
         itemCount: 20,

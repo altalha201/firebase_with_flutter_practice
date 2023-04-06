@@ -1,4 +1,3 @@
-import 'package:firebase_with_flutter_practice/UI/widgets/dual_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +6,7 @@ import '../utility/ui_utility.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/app_text_field.dart';
 import '../widgets/background.dart';
+import '../widgets/dual_text_widget.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);

@@ -1,11 +1,12 @@
-import 'package:firebase_with_flutter_practice/UI/widgets/background.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/signup_controller.dart';
 import '../utility/text_styles.dart';
 import '../utility/ui_utility.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/app_text_field.dart';
+import '../widgets/background.dart';
 import '../widgets/dual_text_widget.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -77,12 +78,22 @@ class SignupScreen extends StatelessWidget {
                         controller: _passET
                     ),
                     const SizedBox(height: 32.0,),
-                    AppElevatedButton(
-                        onTap: () {
-
-                        },
-                        child: UIUtility.proceedIcon
-                    ),
+                    GetBuilder<SignupController>(builder: (signup) {
+                      return AppElevatedButton(
+                          onTap: () {
+                            if (_createKey.currentState!.validate()) {
+                              signup.signup(
+                                  _firstNameET.text,
+                                  _lastNameET.text,
+                                  _emailET.text.trim(),
+                                  _passET.text);
+                            }
+                          },
+                          child: signup.inProgress
+                              ? UIUtility.whiteProgress()
+                              : UIUtility.proceedIcon
+                      );
+                    }),
                     const SizedBox(height: 48.0,),
                     DualTextWidget(
                         onTap: () {
