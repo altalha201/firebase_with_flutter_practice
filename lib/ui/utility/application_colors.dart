@@ -6,4 +6,6 @@ class ApplicationColor {
   static Color colorBiscuit = const Color.fromRGBO(254, 237, 202, 1.0);
   static Color colorWhite = const Color.fromRGBO(255, 255, 255, 1.0);
   static Color colorBlue = const Color.fromRGBO(0, 158, 255, 1.0);
+  static Color colorGreen = const Color.fromRGBO(33, 191, 115, 1);
+  static Color colorRed = const Color.fromRGBO(231, 28, 36, 1);
 }

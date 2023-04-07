@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controllers/signup_controller.dart';
+import '../controllers/profile_creation_controller.dart';
 import '../utility/text_styles.dart';
 import '../utility/ui_utility.dart';
 import '../widgets/app_elevated_button.dart';
@@ -78,15 +78,20 @@ class SignupScreen extends StatelessWidget {
                         controller: _passET
                     ),
                     const SizedBox(height: 32.0,),
-                    GetBuilder<SignupController>(builder: (signup) {
+                    GetBuilder<ProfileCreationController>(builder: (signup) {
                       return AppElevatedButton(
-                          onTap: () {
+                          onTap: () async {
                             if (_createKey.currentState!.validate()) {
-                              signup.signup(
+                              var navigator = Navigator.of(context);
+                              var result = await signup.signup(
                                   _firstNameET.text,
                                   _lastNameET.text,
                                   _emailET.text.trim(),
-                                  _passET.text);
+                                  _passET.text
+                              );
+                              if (result) {
+                                navigator.pop();
+                              }
                             }
                           },
                           child: signup.inProgress

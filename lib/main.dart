@@ -1,13 +1,15 @@
-import 'package:firebase_with_flutter_practice/ui/controllers/signup_controller.dart';
+import 'package:firebase_with_flutter_practice/ui/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'UI/screen/home_screen.dart';
-import 'UI/screen/login_screen.dart';
-import 'UI/screen/profile_update.dart';
-import 'UI/screen/signup_screen.dart';
-import 'UI/screen/splash_screen.dart';
+
+import 'ui/controllers/profile_creation_controller.dart';
+import 'ui/screen/home_screen.dart';
+import 'ui/screen/login_screen.dart';
+import 'ui/screen/profile_update.dart';
+import 'ui/screen/signup_screen.dart';
+import 'ui/screen/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +41,8 @@ class FirebaseApp extends StatelessWidget {
 class StoreBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put(SignupController());
+    Get.put(ProfileCreationController());
+    Get.put(LoginController());
   }
 
 }

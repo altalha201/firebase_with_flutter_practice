@@ -6,7 +6,7 @@ AppBar buildAppBar({
   String? title,
   VoidCallback? profileTap,
   bool? fromHome,
-  VoidCallback? onAddTap,
+  VoidCallback? onLogoutTap,
   PreferredSizeWidget? bottom,
 }) {
   return AppBar(
@@ -27,12 +27,9 @@ AppBar buildAppBar({
       ),
     ),
     actions: [
-      Visibility(
-        visible: fromHome ?? false,
-        child: IconButton(
-            onPressed: onAddTap,
-            icon: Icon(Icons.add_circle_outline, color: ApplicationColor.colorWhite,)
-        ),
+      IconButton(
+          onPressed: onLogoutTap,
+          icon: Icon(Icons.logout, color: ApplicationColor.colorWhite,)
       )
     ],
     bottom: bottom,

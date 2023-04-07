@@ -9,5 +9,9 @@ class UIUtility {
     size: 30,
   );
 
-  static Widget whiteProgress() => Center(child: CircularProgressIndicator(color: ApplicationColor.colorWhite,),);
+  static Widget whiteProgress() => Center(
+    child: CircularProgressIndicator(
+      color: ApplicationColor.colorWhite,
+    ),
+  );
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_with_flutter_practice/ui/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -52,12 +53,21 @@ class LoginScreen extends StatelessWidget {
                   controller: _passET
                 ),
                 const SizedBox(height: 32.0,),
-                AppElevatedButton(
-                  onTap: () {
-                    Get.offAllNamed("/home");
-                  },
-                  child: UIUtility.proceedIcon
-                ),
+                GetBuilder<LoginController>(builder: (controller) {
+                  return AppElevatedButton(
+                      onTap: () async {
+                        if (_loginKey.currentState!.validate()) {
+                          var result = await controller.login(_emailET.text.trim(), _passET.text);
+                          if (result) {
+                            Get.offAllNamed("/home");
+                          }
+                        }
+                      },
+                      child: controller.inProgress
+                            ? UIUtility.whiteProgress()
+                            : UIUtility.proceedIcon
+                  );
+                }),
                 const SizedBox(height: 48.0,),
                 DualTextWidget(
                   onTap: () {

@@ -1,3 +1,4 @@
+import 'package:firebase_with_flutter_practice/ui/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +16,9 @@ class HomeScreen extends StatelessWidget {
         fromHome: true,
         profileTap: () {
           Get.toNamed("/profile");
+        },
+        onLogoutTap: () {
+          Get.find<LoginController>().logout();
         }
       ),
       body: GridView.builder(
