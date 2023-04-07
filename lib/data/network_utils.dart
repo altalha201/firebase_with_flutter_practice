@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_with_flutter_practice/data/auth_data.dart';
 import 'package:get/get.dart';
 
 class NetworkUtils {
 
   final authInstance = FirebaseAuth.instance;
   final database = FirebaseFirestore.instance.collection("photo_storage");
+  final storageRef = FirebaseStorage.instance.ref("photo_storage");
 
   Future<bool> authCreation(email, firstName, lastName, password) async {
     try {
@@ -40,6 +43,15 @@ class NetworkUtils {
       final result = await authInstance.signInWithEmailAndPassword(email: email, password: password);
       if (result.user != null) {
         log(result.user!.uid);
+        database.doc(result.user!.uid).get().then((value) => {
+          AuthData().saveUserData(
+              value.get("first_name"),
+              value.get("last_name"),
+              value.get("image"),
+              value.get("email"),
+              value.get("uid")
+          )
+        });
         return true;
       } else {
         return false;
@@ -51,12 +63,25 @@ class NetworkUtils {
     }
   }
 
+  Future<List> getImageForUser() async {
+    List items = [];
+    await storageRef.child("store").child(AuthData.uID.toString()).listAll().then((value) => {
+      items = value.items
+    });
+    List<String> imageRef = [];
+    for (var element in items) {
+      imageRef.add(await element.getDownloadURL());
+    }
+    return imageRef;
+  }
+
   Future<void> authRemove() async {
     await authInstance.signOut();
     moveToLogin();
   }
 
   void moveToLogin() {
+    AuthData().clearAuthData();
     Get.offAllNamed("/");
   }
 }

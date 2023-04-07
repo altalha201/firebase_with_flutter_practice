@@ -1,3 +1,5 @@
+import 'package:firebase_with_flutter_practice/data/auth_data.dart';
+import 'package:firebase_with_flutter_practice/ui/utility/ui_utility.dart';
 import 'package:flutter/material.dart';
 
 import '../utility/application_colors.dart';
@@ -9,6 +11,12 @@ AppBar buildAppBar({
   VoidCallback? onLogoutTap,
   PreferredSizeWidget? bottom,
 }) {
+  bool hasImage = true;
+  var image = AuthData.profileImg;
+  if (image == "" || image == null) {
+    hasImage = false;
+  }
+
   return AppBar(
     backgroundColor: ApplicationColor.colorBlue,
     centerTitle: true,
@@ -20,8 +28,11 @@ AppBar buildAppBar({
         child: InkWell(
           onTap: profileTap,
           child: CircleAvatar(
+            radius: 12,
             backgroundColor: ApplicationColor.colorBlack,
-            child: const Icon(Icons.person_outline, size: 20,),
+            child: hasImage
+                ? Image.network(image!)
+                : UIUtility.profileIcon,
           ),
         ),
       ),

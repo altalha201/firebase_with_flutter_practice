@@ -1,7 +1,9 @@
 import 'package:firebase_with_flutter_practice/ui/controllers/login_controller.dart';
+import 'package:firebase_with_flutter_practice/ui/controllers/photo_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get_storage/get_storage.dart';
 
 
 import 'ui/controllers/profile_creation_controller.dart';
@@ -14,6 +16,7 @@ import 'ui/screen/splash_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await GetStorage.init();
   runApp(const FirebaseApp());
 }
 
@@ -43,6 +46,7 @@ class StoreBinding extends Bindings {
   void dependencies() {
     Get.put(ProfileCreationController());
     Get.put(LoginController());
+    Get.put(PhotoGetController());
   }
 
 }

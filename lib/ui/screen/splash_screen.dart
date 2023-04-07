@@ -1,4 +1,5 @@
 import 'package:firebase_with_flutter_practice/UI/widgets/background.dart';
+import 'package:firebase_with_flutter_practice/ui/controllers/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,7 +16,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      Get.offAllNamed("/login");
+      if (SplashController().userAvailable()) {
+        Get.offAllNamed("/home");
+      } else {
+        Get.offAllNamed("/login");
+      }
     });
   }
 
