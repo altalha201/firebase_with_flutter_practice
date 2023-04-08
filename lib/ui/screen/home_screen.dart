@@ -1,5 +1,6 @@
 import 'package:firebase_with_flutter_practice/ui/controllers/login_controller.dart';
 import 'package:firebase_with_flutter_practice/ui/controllers/photo_controller.dart';
+import 'package:firebase_with_flutter_practice/ui/controllers/photo_upload_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -52,7 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
+          Get.find<PhotoUploadController>().pickImage();
+          Get.find<PhotoGetController>().getImages();
         },
         child: const Icon(Icons.add),
       ),

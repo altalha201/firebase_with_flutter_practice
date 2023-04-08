@@ -1,10 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_with_flutter_practice/data/auth_data.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NetworkUtils {
 
@@ -78,6 +80,17 @@ class NetworkUtils {
   Future<void> authRemove() async {
     await authInstance.signOut();
     moveToLogin();
+  }
+
+  Future<void> uploadToStorage(XFile image) async {
+    storageRef.child("store")
+        .child(AuthData.uID.toString())
+        .child(image.path.split('/').last)
+        .putFile(File(image.path))
+        .then((p0) => log(p0.toString()))
+        .onError((error, stackTrace) {
+          log(error.toString());
+    });
   }
 
   void moveToLogin() {

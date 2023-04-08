@@ -1,5 +1,6 @@
 import 'package:firebase_with_flutter_practice/ui/controllers/login_controller.dart';
 import 'package:firebase_with_flutter_practice/ui/controllers/photo_controller.dart';
+import 'package:firebase_with_flutter_practice/ui/controllers/photo_upload_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -47,6 +48,7 @@ class StoreBinding extends Bindings {
     Get.put(ProfileCreationController());
     Get.put(LoginController());
     Get.put(PhotoGetController());
+    Get.put(PhotoUploadController());
   }
 
 }
